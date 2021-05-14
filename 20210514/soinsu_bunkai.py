@@ -6,12 +6,12 @@ def main():
     argv = sys.argv
     num = int(argv[1])
 
-    soinsu = slove(num)
+    soinsu = solve(num)
 
     print(" x ".join([str(n) for n in soinsu]))
 
 
-def slove(num):
+def solve(num):
 
     soinsu = []
 
