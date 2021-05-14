@@ -16,37 +16,33 @@ def main():
 
 def solve(num):
 
-    return count(num, True, {}, {})
+    return count(num, True, {True: {}, False: {}})
 
 
-def count(current, is_first, first_cache, second_cache):
+def count(current, is_first, cache):
 
     # まずはキャッシュから
-    if is_first and (current in first_cache):
-        return first_cache[current]
-
-    if not is_first and (current in second_cache):
-        return second_cache[current]
+    if current in cache[is_first]:
+        return cache[is_first][current]
 
     if current == 0:
         if not is_first:
-            return 1  # 後手
+            return 1  # 後手に0を言わせたので勝ち
         else:
-            return 0  # 先手
+            return 0
 
     win_count = 0
 
+    # 1から3まで数える
     for i in range(1, 4):
         if current < i:
+            # 残りより多い場合は数えられないので終わり
             break
 
-        win_count += count(current - i, not is_first, first_cache, second_cache)
+        win_count += count(current - i, not is_first, cache)
 
     # 結果をキャッシュに保存
-    if is_first:
-        first_cache[current] = win_count
-    else:
-        second_cache[current] = win_count
+    cache[is_first][current] = win_count
 
     return win_count
 
