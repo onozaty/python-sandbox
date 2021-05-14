@@ -16,10 +16,17 @@ def main():
 
 def solve(num):
 
-    return count(num, True)
+    return count(num, True, {}, {})
 
 
-def count(current, is_first):
+def count(current, is_first, first_cache, second_cache):
+
+    # まずはキャッシュから
+    if is_first and (current in first_cache):
+        return first_cache[current]
+
+    if not is_first and (current in second_cache):
+        return second_cache[current]
 
     if current == 0:
         if not is_first:
@@ -33,7 +40,13 @@ def count(current, is_first):
         if current < i:
             break
 
-        win_count += count(current - i, not is_first)
+        win_count += count(current - i, not is_first, first_cache, second_cache)
+
+    # 結果をキャッシュに保存
+    if is_first:
+        first_cache[current] = win_count
+    else:
+        second_cache[current] = win_count
 
     return win_count
 
